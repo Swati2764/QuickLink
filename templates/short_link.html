@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuickLink - URL Shortened</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 50px;
+            background-color: #f4f4f4;
+        }
+        h1 {
+            color: #333;
+        }
+        p {
+            font-size: 18px;
+            margin-top: 20px;
+        }
+        .url-box {
+            display: inline-block;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-top: 10px;
+        }
+        .copy-btn {
+            margin-top: 10px;
+            padding: 10px 20px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .copy-btn:hover {
+            background-color: #218838;
+        }
+        .copied-msg {
+            display: none;
+            color: #28a745;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Your shortened URL:</h1>
+    <p class="url-box">
+        <a href="{{ url_for('redirect_to_url', short_url=short_url, _external=True) }}" id="shortUrl">
+            {{ request.url_root }}{{ short_url }}
+        </a>
+    </p>
+    <button class="copy-btn" id="copyButton">Copy URL</button>
+    <p class="copied-msg" id="copiedMessage">Copied to clipboard!</p>
+    <a href="{{ url_for('index') }}">Shorten another URL</a>
+
+    <script>
+        const copyButton = document.getElementById('copyButton');
+        const shortUrl = document.getElementById('shortUrl').innerText;
+        const copiedMessage = document.getElementById('copiedMessage');
+
+        copyButton.addEventListener('click', function () {
+            navigator.clipboard.writeText(shortUrl).then(function () {
+                copiedMessage.style.display = 'block';
+                setTimeout(() => {
+                    copiedMessage.style.display = 'none';
+                }, 2000);
+            });
+        });
+    </script>
+</body>
+</html>
